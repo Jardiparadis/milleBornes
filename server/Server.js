@@ -67,6 +67,12 @@ io.on('connection', socket => {
       socket.broadcast.emit('listGames', listAllGames());
     });
 
+    socket.on('createNewRoom', () => {
+      const newUid = uid(7);
+      rooms.set(newUid, {id: newUid, players: [client.uid]});
+      socket.broadcast.emit('listGames', listAllGames());
+    });
+
     socket.on('getCurrentRoomInfos', () => {
       for (const room of rooms) {
         for (const player of room[1].players) {

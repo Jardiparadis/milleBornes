@@ -19,5 +19,11 @@ function joinRoom(id) {
   socket.off('listGames');
 }
 
+function hostRoom() {
+  location.href='../room/room.html';
+  socket.emit('createNewRoom');
+  socket.off('listGames');
+}
+
 //ask for initial games list
 socket.emit('listGames');
