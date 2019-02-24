@@ -7,8 +7,23 @@ const clients = new Map();
 const rooms = new Map();
 const games = new Map();
 
+const deckModule = require('./deck');
+const playersModule = require('./players');
+
 rooms.set('1', {id: '1', players: ['1', '1', '1']});
 rooms.set('2', {id: '2', players: ['1', '1']});
+
+function startGame(room) {
+  let deck = deckModule.initDeck();
+  let players = playersModule.initPlayers(room, deck);
+
+  games.set(room.id, {
+    deck: deck,
+    players: players
+  });
+  console.log(games);
+  console.log(games.get(room.id).players);
+}
 
 function listAllGames() {
     let response = [];
@@ -74,6 +89,7 @@ io.on('connection', socket => {
       }
       client.ready = false;
       socket.broadcast.emit('listGames', listAllGames());
+      //Remove game if empty
     });
 
     socket.on('createNewRoom', () => {
@@ -101,6 +117,7 @@ io.on('connection', socket => {
           for (const uid of room[1].players) {
             clients.get(uid).socket.emit('startGame');
           }
+          startGame(room[1]);
         }
       }
     });
