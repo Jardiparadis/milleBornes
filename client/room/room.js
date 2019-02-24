@@ -13,6 +13,11 @@ function changeState() {
   ready = !ready;
 }
 
+socket.on('startGame', () => {
+  location.href='../game/game.html';
+  socket.off('currentRoomInfos');
+});
+
 socket.on('currentRoomInfos', (room) => {
   let toAdd = '';
 

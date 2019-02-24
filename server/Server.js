@@ -85,12 +85,21 @@ io.on('connection', socket => {
 
     socket.on('changeState', () => {
       client.ready = !client.ready;
+      let allReady = true;
       for (const room of rooms) {
         if (room[1].players.indexOf(client.uid) !== -1) {
           for (const player of room[1].players) {
             if (player === '1')
               continue;
             clients.get(player).socket.emit('currentRoomInfos', getRoomInfo(room[0]));
+            if (clients.get(player).ready === false)
+              allReady = false;
+          }
+          // Start the game ?
+          if (allReady === false)
+            return;
+          for (const uid of room[1].players) {
+            clients.get(uid).socket.emit('startGame');
           }
         }
       }
