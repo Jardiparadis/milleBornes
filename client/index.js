@@ -4,7 +4,7 @@ const socket = require('./socket');
 let win = null;
 
 function createWindow() {
-  win = new BrowserWindow({ width: 800, height: 600 });
+  win = new BrowserWindow({ width: 1280, height: 720, center: true, minWidth: 800, minHeight: 600 });
   win.loadFile('./client/main_menu/main_menu.html');
   win.webContents.openDevTools();
   win.on('closed', () => {

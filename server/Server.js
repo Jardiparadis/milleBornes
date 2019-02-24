@@ -5,6 +5,7 @@ const serverPort = 8089;
 
 const clients = new Map();
 const rooms = new Map();
+const games = new Map();
 
 rooms.set('1', {id: '1', players: ['1', '1', '1']});
 rooms.set('2', {id: '2', players: ['1', '1']});
@@ -13,9 +14,7 @@ function listAllGames() {
     let response = [];
 
     rooms.forEach((value) => {
-        if (value.players.length < 4) {
-            response.push(value);
-        }
+      response.push(value);
     });
     return response;
 }
@@ -23,13 +22,21 @@ function listAllGames() {
 function getRoomInfo(roomId) {
   let room = rooms.get(roomId);
 
-  return (room);
+  let infosToSend = JSON.parse(JSON.stringify(room));
+  let readyList = [];
+  clients.forEach((value) => {
+    if (room.players.indexOf(value.uid) !== -1)
+      readyList.push(value.ready);
+  });
+  infosToSend.isReady = readyList;
+  return (infosToSend);
 }
 
 io.on('connection', socket => {
     let client = {
         uid: uid(7),
-        socket: socket
+        socket: socket,
+        ready: false
     };
     clients.set(client.uid, client);
     console.log('New client conencted: ' + client.uid);
@@ -40,6 +47,7 @@ io.on('connection', socket => {
     socket.on('joinRoom', (id) => {
       let room = rooms.get(id);
       room.players.push(client.uid);
+      client.ready = false;
       socket.broadcast.emit('listGames', listAllGames());
 
       for (const room of rooms) {
@@ -64,13 +72,28 @@ io.on('connection', socket => {
           }
         }
       }
+      client.ready = false;
       socket.broadcast.emit('listGames', listAllGames());
     });
 
     socket.on('createNewRoom', () => {
       const newUid = uid(7);
       rooms.set(newUid, {id: newUid, players: [client.uid]});
+      client.ready = false;
       socket.broadcast.emit('listGames', listAllGames());
+    });
+
+    socket.on('changeState', () => {
+      client.ready = !client.ready;
+      for (const room of rooms) {
+        if (room[1].players.indexOf(client.uid) !== -1) {
+          for (const player of room[1].players) {
+            if (player === '1')
+              continue;
+            clients.get(player).socket.emit('currentRoomInfos', getRoomInfo(room[0]));
+          }
+        }
+      }
     });
 
     socket.on('getCurrentRoomInfos', () => {
