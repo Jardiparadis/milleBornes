@@ -158,14 +158,20 @@ io.on('connection', socket => {
 
     socket.on('playedCard', (index) => {
       let room = getRoomForPlayer(client.uid);
+      let playersInGame = games.get(room.id).players;
+      let playedCard = null;
 
-      if (room === null)
+      if (room === null || playersInGame === null)
         return;
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
+          playedCard = player.hand[index];
           player.hand[index] = deckModule.pick(games.get(room.id).deck);
           client.socket.emit('hand', player.hand);
         }
+      }
+      for (const player of playersInGame) {
+        clients.get(player.uid).socket.emit('playedCard', playedCard);
       }
     });
 });
