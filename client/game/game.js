@@ -14,12 +14,14 @@ function drop(ev) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
   document.getElementById('card-played').src = document.getElementById(data).src;
+  document.getElementById(data).src = '';
+  socket.emit('playedCard', data.split('-')[1]);
 }
 
 socket.on('hand', (hand) => {
   playerHand = hand;
 
-  let index = 1;
+  let index = 0;
   for (const cardName of hand) {
     let elem = document.getElementById(`hand-${index}`);
     elem.src = `../public/${cardName}.png`;

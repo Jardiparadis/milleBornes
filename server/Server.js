@@ -13,6 +13,15 @@ const playersModule = require('./players');
 rooms.set('1', {id: '1', players: ['1', '1', '1']});
 rooms.set('2', {id: '2', players: ['1', '1']});
 
+function getRoomForPlayer(uid) {
+  for (const room of rooms) {
+    if (room[1].players.indexOf(uid) !== -1) {
+      return (room[1]);
+    }
+  }
+  return (null);
+}
+
 function startGame(room) {
   let deck = deckModule.initDeck();
   let players = playersModule.initPlayers(room, deck);
@@ -136,16 +145,31 @@ io.on('connection', socket => {
     });
 
     socket.on('askHand', () => {
-      for (const room of rooms) {
-        if (room[1].players.indexOf(client.uid) !== -1) {
-          for (const player of games.get(room[0]).players) {
-            client.socket.emit('hand', player.hand);
-          }
+      let room = getRoomForPlayer(client.uid);
+
+      if (room === null)
+        return;
+      for (const player of games.get(room.id).players) {
+        if (player.uid === client.uid) {
+          client.socket.emit('hand', player.hand);
+        }
+      }
+    });
+
+    socket.on('playedCard', (index) => {
+      let room = getRoomForPlayer(client.uid);
+
+      if (room === null)
+        return;
+      for (const player of games.get(room.id).players) {
+        if (player.uid === client.uid) {
+          player.hand[index] = deckModule.pick(games.get(room.id).deck);
+          client.socket.emit('hand', player.hand);
         }
       }
     });
 });
 
 app.listen(serverPort, () => {
-    console.log(`Slerver listening on port ${app.address().port}.`)
+    console.log(`Server listening on port ${app.address().port}.`)
 });
