@@ -134,8 +134,18 @@ io.on('connection', socket => {
         }
       }
     });
+
+    socket.on('askHand', () => {
+      for (const room of rooms) {
+        if (room[1].players.indexOf(client.uid) !== -1) {
+          for (const player of games.get(room[0]).players) {
+            client.socket.emit('hand', player.hand);
+          }
+        }
+      }
+    });
 });
 
 app.listen(serverPort, () => {
-    console.log(`Server listening on port ${app.address().port}.`)
+    console.log(`Slerver listening on port ${app.address().port}.`)
 });
