@@ -1,6 +1,7 @@
 const socket = require('electron').remote.require('./socket');
 
 let playerHand = [];
+let turn = false;
 
 function allowDrop(ev) {
   ev.preventDefault();
@@ -13,7 +14,7 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
-  document.getElementById(data).src = '';
+  //document.getElementById(data).src = '';
   socket.emit('playedCard', data.split('-')[1]);
 }
 
@@ -30,6 +31,11 @@ socket.on('hand', (hand) => {
 
 socket.on('playedCard', (cardName) => {
   document.getElementById('card-played').src = `../public/${cardName}.png`;
+});
+
+socket.on('turn', (isPlayerTurn) => {
+  console.log(isPlayerTurn);
+  turn = isPlayerTurn;
 });
 
 socket.emit('askHand');

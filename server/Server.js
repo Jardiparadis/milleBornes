@@ -22,13 +22,33 @@ function getRoomForPlayer(uid) {
   return (null);
 }
 
+function changeGameTurn(game) {
+  game.turnIndex += 1;
+  if (game.players.length === game.turnIndex) {
+    game.turnIndex = 0;
+  }
+  for (const player of game.players) {
+    let client = clients.get(player.uid);
+    client.socket.emit('turn', isPlayerTurn(client));
+  }
+}
+
+function isPlayerTurn(client) {
+  let game = games.get(getRoomForPlayer(client.uid).id);
+  if (game.players[game.turnIndex].uid === client.uid) {
+    return (true);
+  }
+  return (false);
+}
+
 function startGame(room) {
   let deck = deckModule.initDeck();
   let players = playersModule.initPlayers(room, deck);
 
   games.set(room.id, {
     deck: deck,
-    players: players
+    players: players,
+    turnIndex: 0
   });
   console.log(games);
   console.log(games.get(room.id).players);
@@ -152,6 +172,7 @@ io.on('connection', socket => {
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
           client.socket.emit('hand', player.hand);
+          client.socket.emit('turn', isPlayerTurn(client))
         }
       }
     });
@@ -161,7 +182,7 @@ io.on('connection', socket => {
       let playersInGame = games.get(room.id).players;
       let playedCard = null;
 
-      if (room === null || playersInGame === null)
+      if (room === null || playersInGame === null || !isPlayerTurn(client))
         return;
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
@@ -173,6 +194,7 @@ io.on('connection', socket => {
       for (const player of playersInGame) {
         clients.get(player.uid).socket.emit('playedCard', playedCard);
       }
+      changeGameTurn(games.get(room.id));
     });
 });
 
