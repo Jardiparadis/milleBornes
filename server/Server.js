@@ -2,6 +2,7 @@ const uid = require('uid');
 const app = require('http').createServer();
 const io = require('socket.io')(app);
 const serverPort = 8089;
+const cards = require('./cards');
 
 const clients = new Map();
 const rooms = new Map();
@@ -12,6 +13,16 @@ const playersModule = require('./players');
 
 rooms.set('1', {id: '1', players: ['1', '1', '1']});
 rooms.set('2', {id: '2', players: ['1', '1']});
+
+function applyCardEffet(client, player, cardName) {
+  if (player.uid === client.uid) {
+    console.log('mdr');
+    cards[cardName](player);
+  }
+  client.socket.emit('gameState', player.score);
+  let room = getRoomForPlayer(client.uid);
+  let playersInGame = games.get(room.id).players;
+}
 
 function getRoomForPlayer(uid) {
   for (const room of rooms) {
@@ -187,6 +198,7 @@ io.on('connection', socket => {
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
           playedCard = player.hand[index];
+          applyCardEffet(client, player, playedCard);
           player.hand[index] = deckModule.pick(games.get(room.id).deck);
           client.socket.emit('hand', player.hand);
         }

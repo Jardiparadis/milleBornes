@@ -38,4 +38,9 @@ socket.on('turn', (isPlayerTurn) => {
   turn = isPlayerTurn;
 });
 
+socket.on('gameState', (data) => {
+  console.log(data);
+  document.getElementById('kmTraveled').innerText = data;
+});
+
 socket.emit('askHand');
