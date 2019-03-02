@@ -11,17 +11,34 @@ const games = new Map();
 const deckModule = require('./deck');
 const playersModule = require('./players');
 
-rooms.set('1', {id: '1', players: ['1', '1', '1']});
-rooms.set('2', {id: '2', players: ['1', '1']});
+function getPlayersGameState(playersInGame, client) {
+  let players = [];
+  let currentPlayer = null;
+
+  for (const player of playersInGame) {
+    if (player.uid === client.uid) {
+      currentPlayer = player;
+      continue;
+    }
+    players.push(player);
+  }
+  players.unshift(currentPlayer);
+  return (players);
+}
+
+function emitPlayersGameState(client) {
+  let room = getRoomForPlayer(client.uid);
+  client.socket.emit(
+    'gameState',
+    getPlayersGameState(games.get(room.id).players, client)
+  );
+}
 
 function applyCardEffet(client, player, cardName) {
   if (player.uid === client.uid) {
     console.log('mdr');
     cards[cardName](player);
   }
-  client.socket.emit('gameState', player.score);
-  let room = getRoomForPlayer(client.uid);
-  let playersInGame = games.get(room.id).players;
 }
 
 function getRoomForPlayer(uid) {
@@ -183,7 +200,8 @@ io.on('connection', socket => {
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
           client.socket.emit('hand', player.hand);
-          client.socket.emit('turn', isPlayerTurn(client))
+          client.socket.emit('turn', isPlayerTurn(client));
+          emitPlayersGameState(client);
         }
       }
     });
@@ -205,6 +223,7 @@ io.on('connection', socket => {
       }
       for (const player of playersInGame) {
         clients.get(player.uid).socket.emit('playedCard', playedCard);
+        emitPlayersGameState(clients.get(player.uid));
       }
       changeGameTurn(games.get(room.id));
     });

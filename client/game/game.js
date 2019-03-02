@@ -14,7 +14,6 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
-  //document.getElementById(data).src = '';
   socket.emit('playedCard', data.split('-')[1]);
 }
 
@@ -38,9 +37,16 @@ socket.on('turn', (isPlayerTurn) => {
   turn = isPlayerTurn;
 });
 
-socket.on('gameState', (data) => {
-  console.log(data);
-  document.getElementById('kmTraveled').innerText = data;
+socket.on('gameState', (playersDatas) => {
+  let selfDatas = playersDatas[0];
+  playersDatas.shift();
+
+  let index = 1;
+  for (const playerDatas of playersDatas) {
+    document.getElementById(`enemy-${index}-infos`).style.visibility = 'visible';
+    document.getElementById(`enemy-${index}-score`).innerText = playerDatas.score;
+  }
+  document.getElementById(`self-score`).innerText = selfDatas.score;
 });
 
 socket.emit('askHand');
