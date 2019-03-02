@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <title>Mille Bornes</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"/>
+  <style>
+    .borne-image {
+      position: absolute;
+    }
+    .borne-title {
+      position: absolute;
+      top: 45px;
+      left: 50px;
+      color: white;
+      font-weight: bold;
+      font-size: 15pt;
+    }
+    .card-image {
+      width: 10em;
+      height: 12em;
+      position: absolute;
+      left: 16px;
+      top: 110px;
+    }
+  </style>
 </head>
 <body>
 <div class="columns">
@@ -11,8 +31,12 @@
 </div>
 <div class="columns">
   <div class="column"></div>
-  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="column is-3 box" style="height: 15em; width: 10em">
-    <img id="card-played" src="" alt="card" style="width: 9em; height: 14em; resize: both">
+  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="column is-3">
+    <div style="position: relative; height: 15em; width: 12em">
+      <img src="../public/borne.png" alt="borne" class="borne-image">
+      <p class="borne-title">Pile de jeu</p>
+      <img id="card-played" src="../public/25.png" alt="card" class="card-image">
+    </div>
   </div>
   <div class="column is-1"></div>
   <div class="column is-3 box" style="height: 15em; width: 10em"></div>
