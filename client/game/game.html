@@ -31,15 +31,20 @@
 </div>
 <div class="columns">
   <div class="column"></div>
-  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="column is-3">
+  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="column is-narrow">
     <div style="position: relative; height: 15em; width: 12em">
       <img src="../public/borne.png" alt="borne" class="borne-image">
-      <p class="borne-title">Pile de jeu</p>
+      <p class="borne-title">Game stack</p>
       <img id="card-played" src="../public/25.png" alt="card" class="card-image">
     </div>
   </div>
-  <div class="column is-1"></div>
-  <div class="column is-3 box" style="height: 15em; width: 10em"></div>
+  <div class="column is-narrow" style="height: 15em; width: 10em">
+    <div style="position: relative; height: 15em; width: 12em">
+      <img src="../public/borne.png" alt="borne" class="borne-image">
+      <p class="borne-title">Trash stack</p>
+      <img id="trash" src="../public/25.png" alt="card" class="card-image">
+    </div>
+  </div>
   <div class="column"></div>
 </div>
 <div class="columns">
