@@ -35,10 +35,9 @@ function emitPlayersGameState(client) {
   );
 }
 
-function applyCardEffet(client, player, cardName) {
+function applyCardEffet(client, player, cardName, target) {
   if (player.uid === client.uid) {
-    console.log('mdr');
-    cards[cardName](player);
+    cards[cardName](player, target);
   }
 }
 
@@ -207,7 +206,7 @@ io.on('connection', socket => {
       }
     });
 
-    socket.on('playedCard', (index) => {
+    socket.on('playedCard', (data) => {
       let room = getRoomForPlayer(client.uid);
       let playersInGame = games.get(room.id).players;
       let playedCard = null;
@@ -216,9 +215,17 @@ io.on('connection', socket => {
         return;
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {
-          playedCard = player.hand[index];
-          applyCardEffet(client, player, playedCard);
-          player.hand[index] = deckModule.pick(games.get(room.id).deck);
+          playedCard = player.hand[data.owner];
+          let target = null;
+          if (data.target !== null) {
+            for (const playerTargeted of playersInGame) {
+              if (playerTargeted.uid === data.target) {
+                target = playerTargeted;
+              }
+            }
+          }
+          applyCardEffet(client, player, playedCard, target);
+          player.hand[data.owner] = deckModule.pick(games.get(room.id).deck);
           client.socket.emit('hand', player.hand);
         }
       }

@@ -4,8 +4,14 @@ let playerHand = [];
 let turn = false;
 let initialised = false;
 
-function createNewEnemyDisplay(isLeft, index) {
-  let content = `<div id="enemy-${index}-infos" class="box">
+function dropOnTargetEnemy(ev, targetId) {
+  ev.preventDefault();
+  let data = ev.dataTransfer.getData("text");
+  socket.emit('playedCard', {owner: data.split('-')[1], target: targetId});
+}
+
+function createNewEnemyDisplay(isLeft, index, uid) {
+  let content = `<div id="enemy-${index}-infos" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)">
       <div class="columns">
         <div class="column" style="width: 15em">
           Player 1
@@ -71,7 +77,7 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
-  socket.emit('playedCard', data.split('-')[1]);
+  socket.emit('playedCard', {owner: data.split('-')[1], target: null});
 }
 
 socket.on('hand', (hand) => {
@@ -90,7 +96,6 @@ socket.on('playedCard', (cardName) => {
 });
 
 socket.on('turn', (isPlayerTurn) => {
-  console.log(isPlayerTurn);
   turn = isPlayerTurn;
 });
 
@@ -98,19 +103,22 @@ socket.on('gameState', (playersDatas) => {
   let selfDatas = playersDatas[0];
   playersDatas.shift();
 
-  console.log(playersDatas);
-  let index = 1;
+  let index_player = 1;
   for (const playerDatas of playersDatas) {
     if (initialised === false) {
-      createNewEnemyDisplay(Boolean(index % 2), index);
+      createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid);
     }
-    document.getElementById(`enemy-${index}-score`).innerText = playerDatas.score;
+    document.getElementById(`enemy-${index_player}-score`).innerText = playerDatas.score;
+    let index_display = 1;
     for (const data of Object.entries(playerDatas.handicap)) {
       if (data[1] === true) {
-        document.getElementById(`enemy-${index}-malus-${index}`).src = `../public/${data[0]}.png`;
+        document.getElementById(`enemy-${index_player}-malus-${index_display}`).src = `../public/${data[0]}.png`;
+        index_display += 1;
+      } else {
+        document.getElementById(`enemy-${index_player}-malus-${index_display}`).src = '';
       }
     }
-    index += 1;
+    index_player += 1;
   }
   document.getElementById(`self-score`).innerText = selfDatas.score;
   initialised = true;
