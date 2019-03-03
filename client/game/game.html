@@ -7,6 +7,7 @@
   <style>
     .borne-image {
       position: absolute;
+      left: 1px
     }
 
     .borne-title {
@@ -33,221 +34,29 @@
 </div>
 <div class="columns">
   <!-- Left enemies panel -->
-  <div class="column">
-    <!-- Enemy 1 infos -->
-    <div id="enemy-1-infos" style="visibility: hidden" class="box">
-      <div class="columns">
-        <div class="column" style="width: 15em">
-          Player 1
-        </div>
-        <div class="column" style="width: 15em">
-          Km traveled: <span id="enemy-1-score">0</span>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Malus:
-        </div>
-        <div class="column is-narrow">
-          <img id="enemy-1-malus-1" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img id="enemy-1-malus-2" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img id="enemy-1-malus-3" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img id="enemy-1-malus-4" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img id="enemy-1-malus-5" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Assets:
-        </div>
-        <div class="column is-narrow">
-          <img src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-    </div>
-    <!-- Enemy 2 infos -->
-    <div id="enemy-2-infos" style="visibility: hidden" class="box">
-      <div class="columns">
-        <div class="column" style="width: 15em">
-          Player 2
-        </div>
-        <div class="column" style="width: 15em">
-          Km traveled: <span id="enemy-2-score">0</span>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Malus:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Assets:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="column"></div>
+  <div class="column is-one-third" id="left-enemy-panel"></div>
   <!-- Game Stack -->
-  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="column is-narrow">
-    <div style="position: relative; height: 15em; width: 12em">
-      <img src="../public/borne.png" alt="borne" class="borne-image">
-      <p class="borne-title">Game stack</p>
-      <img id="card-played" src="../public/25.png" alt="card" class="card-image">
+  <div class="column is-one-third">
+    <div class="columns">
+      <div class="column is-centered has-text-centered" id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div style="position: relative; height: 15em; width: 12em; display: inline-block">
+          <img src="../public/borne.png" alt="borne" class="borne-image">
+          <p class="borne-title">Game stack</p>
+          <img id="card-played" src="../public/25.png" alt="card" class="card-image">
+        </div>
+      </div>
+      <!-- Trash Stack -->
+      <div class="column is-centered has-text-centered" id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div style="position: relative; height: 15em; width: 12em; display: inline-block">
+          <img src="../public/borne.png" alt="borne" class="borne-image">
+          <p class="borne-title">Trash stack</p>
+          <img id="trash" src="../public/25.png" alt="card" class="card-image">
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Trash Stack -->
-  <div class="column is-narrow" style="height: 15em; width: 10em">
-    <div style="position: relative; height: 15em; width: 12em">
-      <img src="../public/borne.png" alt="borne" class="borne-image">
-      <p class="borne-title">Trash stack</p>
-      <img id="trash" src="../public/25.png" alt="card" class="card-image">
-    </div>
-  </div>
-  <div class="column"></div>
   <!-- Right enemies panel -->
-  <div class="column box">
-    <!-- Enemy 3 infos -->
-    <div id="enemy-3-infos" style="visibility: hidden">
-      <div class="columns">
-        <div class="column" style="width: 15em">
-          Player 3
-        </div>
-        <div class="column" style="width: 15em">
-          Km traveled: <span id="enemy-3-score">0</span>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Malus:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Assets:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-    </div>
-    <!-- Enemy 4 infos -->
-    <div id="enemy-4-infos" style="visibility: hidden">
-      <div class="columns">
-        <div class="column" style="width: 15em">
-          Player 4
-        </div>
-        <div class="column" style="width: 15em">
-          Km traveled: <span id="enemy-4-score">0</span>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Malus:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-narrow">
-          Assets:
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-        <div class="column is-narrow">
-          <img src="../public/25.png" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="column is-one-third" id="right-enemy-panel"></div>
 </div>
 <div class="columns">
   <div class="column" style="height: 6em"></div>
