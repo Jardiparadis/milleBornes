@@ -118,6 +118,15 @@ socket.on('gameState', (playersDatas) => {
         document.getElementById(`enemy-${index_player}-malus-${index_display}`).src = '';
       }
     }
+    index_display = 1;
+    for (const data of Object.entries(playerDatas.bonus)) {
+      if (data[1] === true) {
+        document.getElementById(`enemy-${index_player}-bonus-${index_display}`).src = `../public/${data[0]}.png`;
+        index_display += 1;
+      } else {
+        document.getElementById(`enemy-${index_player}-bonus-${index_display}`).src = '';
+      }
+    }
     index_player += 1;
   }
   document.getElementById(`self-score`).innerText = selfDatas.score;

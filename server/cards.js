@@ -35,7 +35,7 @@ module.exports = {
   },
 
   "as": (cardOwner, target) => {
-    target.bonus.as = true;
+    cardOwner.bonus.as = true;
   },
 
   "breakdown": (cardOwner, target) => {
