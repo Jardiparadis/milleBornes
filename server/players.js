@@ -8,7 +8,7 @@ module.exports = {
       players.push({
         uid: uid,
         score: 0,
-        handicap: {accident: false, breakdown: false, limit: false, puncture: false, red: false},
+        handicap: {accident: false, breakdown: false, limit: false, puncture: false, red: true},
         bonus: {tank: false, increvable: false, priority: false, as: false},
         hand: [
           deckModule.pick(deck),

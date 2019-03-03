@@ -41,10 +41,17 @@ socket.on('gameState', (playersDatas) => {
   let selfDatas = playersDatas[0];
   playersDatas.shift();
 
+  console.log(playersDatas);
   let index = 1;
   for (const playerDatas of playersDatas) {
     document.getElementById(`enemy-${index}-infos`).style.visibility = 'visible';
     document.getElementById(`enemy-${index}-score`).innerText = playerDatas.score;
+    for (const data of Object.entries(playerDatas.handicap)) {
+      if (data[1] === true) {
+        document.getElementById(`enemy-${index}-malus-${index}`).src = `../public/${data[0]}.png`;
+      }
+    }
+    index += 1;
   }
   document.getElementById(`self-score`).innerText = selfDatas.score;
 });

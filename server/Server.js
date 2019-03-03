@@ -23,6 +23,7 @@ function getPlayersGameState(playersInGame, client) {
     players.push(player);
   }
   players.unshift(currentPlayer);
+  console.log(players);
   return (players);
 }
 
