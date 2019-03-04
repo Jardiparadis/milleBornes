@@ -37,7 +37,7 @@ function emitPlayersGameState(client) {
 
 function applyCardEffet(client, player, cardName, target) {
   if (player.uid === client.uid) {
-    cards[cardName](player, target);
+    return (cards[cardName](player, target));
   }
 }
 
@@ -224,7 +224,10 @@ io.on('connection', socket => {
               }
             }
           }
-          applyCardEffet(client, player, playedCard, target);
+          if (applyCardEffet(client, player, playedCard, target) === false) {
+            // Something went wrong during card effect process
+            return;
+          }
           player.hand[data.owner] = deckModule.pick(games.get(room.id).deck);
           client.socket.emit('hand', player.hand);
         }

@@ -1,89 +1,199 @@
+function hasOneOfTheseBonus(playerToCheck, bonusToCheck) {
+  for (const bonus of bonusToCheck) {
+    if (playerToCheck.bonus[bonus] === true) {
+      return (true);
+    }
+  }
+  return (false);
+}
+
+function hasOneOfTheseHandicap(playerToCheck, handicapToCheck) {
+  for (const handicap of handicapToCheck) {
+    if (playerToCheck.handicap[handicap] === true) {
+      return (true);
+    }
+  }
+  return (false);
+}
+
 module.exports = {
 
   "25": (cardOwner) => {
-    console.log(25);
-    console.log('lol');
+    let forbiddenState = ['red', 'accident', 'puncture', 'accident'];
+
+    if (cardOwner.bonus.priority === true) {
+      forbiddenState.splice(1, 1);
+    }
+    if (hasOneOfTheseHandicap(cardOwner, forbiddenState) === true) {
+      return (false);
+    }
     cardOwner.score += 25;
+    return (true);
   },
 
   "50": (cardOwner) => {
-    console.log(50);
-    console.log('lol');
+    let forbiddenState = ['red', 'accident', 'puncture', 'accident'];
+
+    if (cardOwner.bonus.priority === true) {
+      forbiddenState.splice(1, 1);
+    }
+    if (hasOneOfTheseHandicap(cardOwner, forbiddenState) === true) {
+      return (false);
+    }
     cardOwner.score += 50;
+    return (true);
   },
 
   "75": (cardOwner) => {
-    console.log(75);
-    console.log('lol');
+    let forbiddenState = ['red', 'limit', 'accident', 'puncture', 'breakdown'];
+
+    if (cardOwner.bonus.priority === true) {
+      forbiddenState.splice(1, 2);
+    }
+    if (hasOneOfTheseHandicap(cardOwner, forbiddenState) === true) {
+      return (false);
+    }
     cardOwner.score += 75;
+    return (true);
   },
 
   "100": (cardOwner) => {
-    console.log(100);
-    console.log('lol');
+    let forbiddenState = ['red', 'limit', 'accident', 'puncture', 'breakdown'];
+
+    if (cardOwner.bonus.priority === true) {
+      forbiddenState.splice(1, 2);
+    }
+    if (hasOneOfTheseHandicap(cardOwner, forbiddenState) === true) {
+      return (false);
+    }
     cardOwner.score += 100;
+    return (true);
   },
 
   "200": (cardOwner) => {
-    console.log(200);
-    console.log('lol');
+    let forbiddenState = ['red', 'limit', 'accident', 'puncture', 'breakdown'];
+
+    if (cardOwner.bonus.priority === true) {
+      forbiddenState.splice(1, 2);
+    }
+    if (hasOneOfTheseHandicap(cardOwner, forbiddenState) === true) {
+      return (false);
+    }
     cardOwner.score += 200;
+    return (true);
   },
 
   "accident": (cardOwner, target) => {
+    if (!target)
+      return false;
+    if (target.handicap.accident === true || target.bonus.as === true) {
+      return (false);
+    }
     target.handicap.accident = true;
+    return (true);
   },
 
-  "as": (cardOwner, target) => {
+  "as": (cardOwner) => {
     cardOwner.bonus.as = true;
+    return (true);
   },
 
   "breakdown": (cardOwner, target) => {
+    if (!target)
+      return false;
+    if (target.handicap.breakdown === true || target.bonus.tank === true) {
+      return (false);
+    }
     target.handicap.breakdown = true;
+    return (true);
   },
 
   "gasoline": (cardOwner) => {
+    if (cardOwner.handicap.breakdown === false) {
+      return (false);
+    }
     cardOwner.handicap.breakdown = false;
+    cardOwner.handicap.red = true;
+    return (true);
   },
 
   "green": (cardOwner) => {
+    if (cardOwner.handicap.red === false) {
+      return (false);
+    }
     cardOwner.handicap.red = false;
+    return (true);
   },
 
   "increvable": (cardOwner) => {
     cardOwner.bonus.increvable = true;
+    return (true);
   },
 
   "limit": (cardOwner, target) => {
+    if (!target)
+      return false;
+    if (target.handicap.limit === true || target.bonus.priority === true) {
+      return (false);
+    }
     target.handicap.limit = true;
+    return (true);
   },
 
   "priority": (cardOwner) => {
     cardOwner.bonus.priority = true;
+    return (true);
   },
 
   "puncture": (cardOwner, target) => {
+    if (!target)
+      return false;
+    if (target.handicap.puncture === true || target.bonus.increvable === true) {
+      return (false);
+    }
     target.handicap.puncture = true;
+    return (true);
   },
 
   "red": (cardOwner, target) => {
+    if (!target)
+      return false;
+    if (target.handicap.red === true || target.bonus.priority === true) {
+      return (false);
+    }
     target.handicap.red = true;
+    return (true);
   },
 
-  "repair": (cardOwner, target) => {
-    target.handicap.accident = false;
+  "repair": (cardOwner) => {
+    if (cardOwner.handicap.accident === false) {
+      return (false);
+    }
+    cardOwner.handicap.accident = false;
+    cardOwner.handicap.red = true;
+    return (true);
   },
 
-  "stop_limit": (cardOwner, target) => {
+  "stop_limit": (cardOwner) => {
+    if (cardOwner.handicap.limit === false) {
+      return (false);
+    }
     cardOwner.handicap.limit = false;
+    return (true);
   },
 
-  "tank": (cardOwner, target) => {
+  "tank": (cardOwner) => {
     cardOwner.bonus.tank = true;
+    return (true);
   },
 
-  "wheel": (cardOwner, target) => {
+  "wheel": (cardOwner) => {
+    if (cardOwner.handicap.puncture === false) {
+      return (false);
+    }
     cardOwner.handicap.puncture = false;
+    cardOwner.handicap.red = true;
+    return (true);
   },
 };
 
@@ -99,4 +209,5 @@ module.exports = {
 * TODO must wait for at least 2 players to start
 * TODO unbind all event handler when changing views
 * TODO add the trash
+* TODO bonus cancel associate penalties
 * */
