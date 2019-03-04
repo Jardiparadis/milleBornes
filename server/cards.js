@@ -203,8 +203,6 @@ module.exports = {
 };
 
 /*
-* TODO cards effect
-* TODO enemy player dropable
 * TODO Display bonus/malus for player
 * TODO handle disconnection
 * TODO add name to player
