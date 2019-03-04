@@ -77,7 +77,13 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
-  socket.emit('playedCard', {owner: data.split('-')[1], target: null});
+  socket.emit('playedCard', {owner: data.split('-')[1], target: null, trash: false});
+}
+
+function dropToTrash(ev) {
+  ev.preventDefault();
+  let data = ev.dataTransfer.getData("text");
+  socket.emit('playedCard', {owner: data.split('-')[1], target: null, trash: true});
 }
 
 socket.on('hand', (hand) => {
@@ -91,8 +97,10 @@ socket.on('hand', (hand) => {
   }
 });
 
-socket.on('playedCard', (cardName) => {
-  document.getElementById('card-played').src = `../public/${cardName}.png`;
+socket.on('playedCard', ({cardName, isTrash}) => {
+  if (isTrash === false) {
+    document.getElementById('card-played').src = `../public/${cardName}.png`;
+  }
 });
 
 socket.on('turn', (isPlayerTurn) => {

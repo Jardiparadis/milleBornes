@@ -224,16 +224,18 @@ io.on('connection', socket => {
               }
             }
           }
-          if (applyCardEffet(client, player, playedCard, target) === false) {
-            // Something went wrong during card effect process
-            return;
+          if (data.trash === false) {
+            if (applyCardEffet(client, player, playedCard, target) === false) {
+              // Something went wrong during card effect process
+              return;
+            }
           }
           player.hand[data.owner] = deckModule.pick(games.get(room.id).deck);
           client.socket.emit('hand', player.hand);
         }
       }
       for (const player of playersInGame) {
-        clients.get(player.uid).socket.emit('playedCard', playedCard);
+        clients.get(player.uid).socket.emit('playedCard', {cardName: playedCard, isTrash: data.trash});
         emitPlayersGameState(clients.get(player.uid));
       }
       changeGameTurn(games.get(room.id));
