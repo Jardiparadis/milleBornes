@@ -16,6 +16,16 @@ function hasOneOfTheseHandicap(playerToCheck, handicapToCheck) {
   return (false);
 }
 
+function setRed(target) {
+  if (!target)
+    return false;
+  if (target.handicap.red === true || target.bonus.priority === true) {
+    return (false);
+  }
+  target.handicap.red = true;
+  return (true);
+}
+
 module.exports = {
 
   "25": (cardOwner) => {
@@ -114,7 +124,7 @@ module.exports = {
       return (false);
     }
     cardOwner.handicap.breakdown = false;
-    cardOwner.handicap.red = true;
+    setRed(cardOwner);
     return (true);
   },
 
@@ -174,7 +184,7 @@ module.exports = {
       return (false);
     }
     cardOwner.handicap.accident = false;
-    cardOwner.handicap.red = true;
+    setRed(cardOwner);
     return (true);
   },
 
@@ -197,7 +207,7 @@ module.exports = {
       return (false);
     }
     cardOwner.handicap.puncture = false;
-    cardOwner.handicap.red = true;
+    setRed(cardOwner);
     return (true);
   },
 };

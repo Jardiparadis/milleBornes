@@ -37,7 +37,12 @@ function emitPlayersGameState(client) {
 
 function applyCardEffet(client, player, cardName, target) {
   if (player.uid === client.uid) {
+    console.log('======================');
     console.log(cardName);
+    console.log('======================');
+    if (cardName === undefined) {
+      return (false);
+    }
     return (cards[cardName](player, target));
   }
 }
