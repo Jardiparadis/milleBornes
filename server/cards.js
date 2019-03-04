@@ -95,6 +95,7 @@ module.exports = {
 
   "as": (cardOwner) => {
     cardOwner.bonus.as = true;
+    cardOwner.handicap.accident = false;
     return (true);
   },
 
@@ -127,6 +128,7 @@ module.exports = {
 
   "increvable": (cardOwner) => {
     cardOwner.bonus.increvable = true;
+    cardOwner.handicap.puncture = false;
     return (true);
   },
 
@@ -142,6 +144,8 @@ module.exports = {
 
   "priority": (cardOwner) => {
     cardOwner.bonus.priority = true;
+    cardOwner.handicap.red = false;
+    cardOwner.handicap.limit = false;
     return (true);
   },
 
@@ -184,6 +188,7 @@ module.exports = {
 
   "tank": (cardOwner) => {
     cardOwner.bonus.tank = true;
+    cardOwner.handicap.breakdown = false;
     return (true);
   },
 
@@ -209,5 +214,4 @@ module.exports = {
 * TODO must wait for at least 2 players to start
 * TODO unbind all event handler when changing views
 * TODO add the trash
-* TODO bonus cancel associate penalties
 * */
