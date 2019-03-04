@@ -138,6 +138,24 @@ socket.on('gameState', (playersDatas) => {
     index_player += 1;
   }
   document.getElementById(`self-score`).innerText = selfDatas.score;
+  let index = 1;
+  for (const data of Object.entries(selfDatas.bonus)) {
+    if (data[1] === true) {
+      document.getElementById(`bonus-${index}`).src = `../public/${data[0]}.png`;
+      index += 1;
+    } else {
+      document.getElementById(`bonus-${index}`).src = '';
+    }
+  }
+  index = 1;
+  for (const data of Object.entries(selfDatas.handicap)) {
+    if (data[1] === true) {
+      document.getElementById(`malus-${index}`).src = `../public/${data[0]}.png`;
+      index += 1;
+    } else {
+      document.getElementById(`malus-${index}`).src = '';
+    }
+  }
   initialised = true;
 });
 
