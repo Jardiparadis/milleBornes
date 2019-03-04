@@ -7,7 +7,7 @@ let initialised = false;
 function dropOnTargetEnemy(ev, targetId) {
   ev.preventDefault();
   let data = ev.dataTransfer.getData("text");
-  socket.emit('playedCard', {owner: data.split('-')[1], target: targetId});
+  socket.emit('playedCard', {owner: data.split('-')[1], target: targetId, trash: false});
 }
 
 function createNewEnemyDisplay(isLeft, index, uid) {
@@ -105,6 +105,11 @@ socket.on('playedCard', ({cardName, isTrash}) => {
 
 socket.on('turn', (isPlayerTurn) => {
   turn = isPlayerTurn;
+  if (isPlayerTurn) {
+    document.getElementById('is-your-turn').style.visibility = 'visible';
+  } else {
+    document.getElementById('is-your-turn').style.visibility = 'hidden';
+  }
 });
 
 socket.on('gameState', (playersDatas) => {
