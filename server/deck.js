@@ -1,17 +1,6 @@
+const shuffleArray = require('shuffle-array');
+
 module.exports = {
-
-  shuffleDeck(deck) {
-    let ctr = deck.length, temp, index;
-
-    while (ctr > 0) {
-      index = Math.floor(Math.random() * ctr);
-      ctr--;
-      temp = deck[ctr];
-      deck[ctr] = deck[index];
-      deck[index] = temp;
-    }
-    return deck;
-  },
 
   fillDeck(deck, card, nbr) {
     for (let i = 0; i !== nbr; ++i) {
@@ -41,7 +30,7 @@ module.exports = {
     this.fillDeck(deck, 'stop_limit', 6);
     this.fillDeck(deck, 'tank', 1);
     this.fillDeck(deck, 'wheel', 6);
-    return (this.shuffleDeck(deck));
+    return (shuffleArray(deck));
   },
 
   pick(deck) {
