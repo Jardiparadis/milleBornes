@@ -72,7 +72,7 @@ function isPlayerTurn(client) {
   if (game.players[game.turnIndex].uid === client.uid) {
     return (true);
   }
-  return (false);
+  return (game.players[game.turnIndex].uid);
 }
 
 function startGame(room) {
@@ -217,7 +217,7 @@ io.on('connection', socket => {
       let playersInGame = games.get(room.id).players;
       let playedCard = null;
 
-      if (room === null || playersInGame === null || !isPlayerTurn(client))
+      if (room === null || playersInGame === null || isPlayerTurn(client) !== true)
         return;
       for (const player of games.get(room.id).players) {
         if (player.uid === client.uid) {

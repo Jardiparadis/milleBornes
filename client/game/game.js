@@ -11,7 +11,7 @@ function dropOnTargetEnemy(ev, targetId) {
 }
 
 function createNewEnemyDisplay(isLeft, index, uid) {
-  let content = `<div id="enemy-${index}-infos" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)" style="background-color: rgba(153, 0, 0, 0.7); border-radius: 25px; color: white;">
+  let content = `<div id="${uid}" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)" style="background-color: rgba(153, 0, 0, 0.7); border-radius: 25px; color: white;">
       <div class="columns">
         <div class="column" style="width: 15em">
           Player 1
@@ -171,11 +171,17 @@ socket.on('playedCard', ({cardName, isTrash}) => {
 });
 
 socket.on('turn', (isPlayerTurn) => {
-  turn = isPlayerTurn;
-  if (isPlayerTurn) {
-    document.getElementById('is-your-turn').style.visibility = 'visible';
+  if (isPlayerTurn === true) {
+    document.getElementById('turn-indicator').style.backgroundColor = 'rgba(0, 179, 0, 0.7)';
+    turn = true;
   } else {
-    document.getElementById('is-your-turn').style.visibility = 'hidden';
+    if (turn !== false && turn !== true) {
+      document.getElementById(turn).style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
+    }
+    document.getElementById('turn-indicator').style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
+    console.log(isPlayerTurn);
+    document.getElementById(isPlayerTurn).style.backgroundColor = 'rgba(0, 179, 0, 0.7)';
+    turn = isPlayerTurn;
   }
 });
 
