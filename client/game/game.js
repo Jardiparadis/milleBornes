@@ -11,13 +11,13 @@ function dropOnTargetEnemy(ev, targetId) {
 }
 
 function createNewEnemyDisplay(isLeft, index, uid) {
-  let content = `<div id="enemy-${index}-infos" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)">
+  let content = `<div id="enemy-${index}-infos" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)" style="background-color: rgba(153, 0, 0, 0.7); border-radius: 25px; color: white;">
       <div class="columns">
         <div class="column" style="width: 15em">
           Player 1
         </div>
         <div class="column" style="width: 15em">
-          Km traveled: <span id="enemy-${index}-score">0</span>
+        <span id="enemy-${index}-score">0</span> kilometers
         </div>
       </div>
       <div class="columns">
@@ -56,6 +56,7 @@ function createNewEnemyDisplay(isLeft, index, uid) {
         <div class="column is-narrow">
           <img id="enemy-${index}-bonus-4" src="" alt="card" style="width: auto; height: auto; resize: both; max-height: 3em">
         </div>
+        <div class="column"></div>
       </div>
     </div>`;
 
