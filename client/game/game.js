@@ -86,6 +86,65 @@ function dropToTrash(ev) {
   socket.emit('playedCard', {owner: data.split('-')[1], target: null, trash: true});
 }
 
+function resetEnemyState(index_player) {
+  for (const index of [...Array(4).keys()]) {
+    console.log(`enemy-${index_player}-malus-${index + 1}`);
+    document.getElementById(`enemy-${index_player}-malus-${index + 1}`).src = '';
+  }
+  for (const index of [...Array(3).keys()]) {
+    document.getElementById(`enemy-${index_player}-bonus-${index + 1}`).src = '';
+  }
+}
+
+function updateEnemyState(playerDatas, index_player) {
+  let index_display = 1;
+
+  document.getElementById(`enemy-${index_player}-score`).innerText = playerDatas.score;
+  for (const data of Object.entries(playerDatas.handicap)) {
+    let element = document.getElementById(`enemy-${index_player}-malus-${index_display}`);
+    if (data[1] === true) {
+      element.src = `../public/${data[0]}.png`;
+      index_display += 1;
+    }
+  }
+  index_display = 1;
+  for (const data of Object.entries(playerDatas.bonus)) {
+    let element = document.getElementById(`enemy-${index_player}-bonus-${index_display}`);
+    if (data[1] === true) {
+      element.src = `../public/${data[0]}.png`;
+      index_display += 1;
+    }
+  }
+}
+
+function resetSelfState() {
+  for (const index of [...Array(3).keys()]) {
+    document.getElementById(`bonus-${index + 1}`).src = '';
+  }
+  for (const index of [...Array(4).keys()]) {
+    document.getElementById(`malus-${index + 1}`).src = '';
+  }
+}
+
+function updateSelfState(selfDatas) {
+  let index = 1;
+
+  document.getElementById(`self-score`).innerText = selfDatas.score;
+  for (const data of Object.entries(selfDatas.bonus)) {
+    if (data[1] === true) {
+      document.getElementById(`bonus-${index}`).src = `../public/${data[0]}.png`;
+      index += 1;
+    }
+  }
+  index = 1;
+  for (const data of Object.entries(selfDatas.handicap)) {
+    if (data[1] === true) {
+      document.getElementById(`malus-${index}`).src = `../public/${data[0]}.png`;
+      index += 1;
+    }
+  }
+}
+
 socket.on('hand', (hand) => {
   playerHand = hand;
 
@@ -121,46 +180,12 @@ socket.on('gameState', (playersDatas) => {
     if (initialised === false) {
       createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid);
     }
-    document.getElementById(`enemy-${index_player}-score`).innerText = playerDatas.score;
-    let index_display = 1;
-    for (const data of Object.entries(playerDatas.handicap)) {
-      if (data[1] === true) {
-        document.getElementById(`enemy-${index_player}-malus-${index_display}`).src = `../public/${data[0]}.png`;
-        index_display += 1;
-      } else {
-        document.getElementById(`enemy-${index_player}-malus-${index_display}`).src = '';
-      }
-    }
-    index_display = 1;
-    for (const data of Object.entries(playerDatas.bonus)) {
-      if (data[1] === true) {
-        document.getElementById(`enemy-${index_player}-bonus-${index_display}`).src = `../public/${data[0]}.png`;
-        index_display += 1;
-      } else {
-        document.getElementById(`enemy-${index_player}-bonus-${index_display}`).src = '';
-      }
-    }
+    resetEnemyState(index_player);
+    updateEnemyState(playerDatas, index_player);
     index_player += 1;
   }
-  document.getElementById(`self-score`).innerText = selfDatas.score;
-  let index = 1;
-  for (const data of Object.entries(selfDatas.bonus)) {
-    if (data[1] === true) {
-      document.getElementById(`bonus-${index}`).src = `../public/${data[0]}.png`;
-      index += 1;
-    } else {
-      document.getElementById(`bonus-${index}`).src = '';
-    }
-  }
-  index = 1;
-  for (const data of Object.entries(selfDatas.handicap)) {
-    if (data[1] === true) {
-      document.getElementById(`malus-${index}`).src = `../public/${data[0]}.png`;
-      index += 1;
-    } else {
-      document.getElementById(`malus-${index}`).src = '';
-    }
-  }
+  resetSelfState();
+  updateSelfState(selfDatas);
   initialised = true;
 });
 
