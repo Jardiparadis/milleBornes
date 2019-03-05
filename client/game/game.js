@@ -87,12 +87,13 @@ function dropToTrash(ev) {
 }
 
 function resetEnemyState(index_player) {
-  for (const index of [...Array(4).keys()]) {
-    console.log(`enemy-${index_player}-malus-${index + 1}`);
+  for (const index of [...Array(5).keys()]) {
     document.getElementById(`enemy-${index_player}-malus-${index + 1}`).src = '';
+    document.getElementById(`enemy-${index_player}-malus-${index + 1}`).style.visibility = 'hidden';
   }
-  for (const index of [...Array(3).keys()]) {
+  for (const index of [...Array(4).keys()]) {
     document.getElementById(`enemy-${index_player}-bonus-${index + 1}`).src = '';
+    document.getElementById(`enemy-${index_player}-bonus-${index + 1}`).style.visibility = 'hidden';
   }
 }
 
@@ -104,6 +105,7 @@ function updateEnemyState(playerDatas, index_player) {
     let element = document.getElementById(`enemy-${index_player}-malus-${index_display}`);
     if (data[1] === true) {
       element.src = `../public/${data[0]}.png`;
+      element.style.visibility = 'visible';
       index_display += 1;
     }
   }
@@ -112,17 +114,20 @@ function updateEnemyState(playerDatas, index_player) {
     let element = document.getElementById(`enemy-${index_player}-bonus-${index_display}`);
     if (data[1] === true) {
       element.src = `../public/${data[0]}.png`;
+      element.style.visibility = 'visible';
       index_display += 1;
     }
   }
 }
 
 function resetSelfState() {
-  for (const index of [...Array(3).keys()]) {
-    document.getElementById(`bonus-${index + 1}`).src = '';
-  }
   for (const index of [...Array(4).keys()]) {
+    document.getElementById(`bonus-${index + 1}`).src = '';
+    document.getElementById(`bonus-${index + 1}`).style.visibility = 'hidden';
+  }
+  for (const index of [...Array(5).keys()]) {
     document.getElementById(`malus-${index + 1}`).src = '';
+    document.getElementById(`malus-${index + 1}`).style.visibility = 'hidden';
   }
 }
 
@@ -133,6 +138,7 @@ function updateSelfState(selfDatas) {
   for (const data of Object.entries(selfDatas.bonus)) {
     if (data[1] === true) {
       document.getElementById(`bonus-${index}`).src = `../public/${data[0]}.png`;
+      document.getElementById(`bonus-${index}`).style.visibility = 'visible';
       index += 1;
     }
   }
@@ -140,6 +146,7 @@ function updateSelfState(selfDatas) {
   for (const data of Object.entries(selfDatas.handicap)) {
     if (data[1] === true) {
       document.getElementById(`malus-${index}`).src = `../public/${data[0]}.png`;
+      document.getElementById(`malus-${index}`).style.visibility = 'visible';
       index += 1;
     }
   }
