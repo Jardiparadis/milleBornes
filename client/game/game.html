@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: url(../public/grass.png) no-repeat center fixed; background-size: cover;">
 <head>
   <meta charset="UTF-8">
   <title>Mille Bornes</title>
@@ -46,7 +46,8 @@
         </div>
       </div>
       <!-- Trash Stack -->
-      <div class="column is-centered has-text-centered" id="div2" ondrop="dropToTrash(event, true)" ondragover="allowDrop(event)">
+      <div class="column is-centered has-text-centered" id="div2" ondrop="dropToTrash(event, true)"
+           ondragover="allowDrop(event)">
         <div style="position: relative; height: 15em; width: 12em; display: inline-block">
           <img src="../public/borne.png" alt="borne" class="borne-image">
           <p class="borne-title">Trash stack</p>
@@ -107,31 +108,37 @@
   </div>
   <div class="column is-1"></div>
 </div>
-<div class="columns box">
+<div class="columns">
   <div class="column is-1"></div>
   <div class="column">
-    <img id="hand-0" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
-  </div>
-  <div class="column">
-    <img id="hand-1" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
-  </div>
-  <div class="column">
-    <img id="hand-2" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
-  </div>
-  <div class="column">
-    <img id="hand-3" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
-  </div>
-  <div class="column">
-    <img id="hand-4" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
-  </div>
-  <div class="column">
-    <img id="hand-5" draggable=true ondragstart="drag(event)" src="" alt="card"
-         style="width: auto; height: auto; resize: both; max-height: 20em">
+    <div class="columns" style="background-color: rgba(153, 0, 0, 0.7); border-radius: 25px">
+      <div class="column"></div>
+      <div class="column">
+        <img id="hand-0" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column">
+        <img id="hand-1" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column">
+        <img id="hand-2" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column">
+        <img id="hand-3" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column">
+        <img id="hand-4" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column">
+        <img id="hand-5" draggable=true ondragstart="drag(event)" src="" alt="card"
+             style="width: auto; height: auto; resize: both; max-height: 20em">
+      </div>
+      <div class="column"></div>
+    </div>
   </div>
   <div class="column is-1"></div>
 </div>
