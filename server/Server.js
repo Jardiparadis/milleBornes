@@ -248,6 +248,14 @@ io.on('connection', socket => {
       }
       changeGameTurn(games.get(room.id));
     });
+
+    socket.on('initPlayers', () => {
+      let room = getRoomForPlayer(client.uid);
+      client.socket.emit(
+        'initPlayers',
+        getPlayersGameState(games.get(room.id).players, client)
+      );
+    });
 });
 
 app.listen(serverPort, () => {

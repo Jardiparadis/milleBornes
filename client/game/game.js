@@ -1,8 +1,7 @@
 const socket = require('electron').remote.require('./socket');
 
 let playerHand = [];
-let turn = false;
-let initialised = false;
+let green = false;
 
 function dropOnTargetEnemy(ev, targetId) {
   ev.preventDefault();
@@ -170,18 +169,28 @@ socket.on('playedCard', ({cardName, isTrash}) => {
   }
 });
 
+socket.on('initPlayers', (playersDatas) => {
+  playersDatas.shift();
+
+  let index_player = 1;
+  for (const playerDatas of playersDatas) {
+    createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid);
+    index_player += 1;
+  }
+  socket.emit('askHand');
+});
+
 socket.on('turn', (isPlayerTurn) => {
+  document.getElementById('turn-indicator').style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
+  if (green !== false) {
+    document.getElementById(green).style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
+    green = false;
+  }
   if (isPlayerTurn === true) {
     document.getElementById('turn-indicator').style.backgroundColor = 'rgba(0, 179, 0, 0.7)';
-    turn = true;
   } else {
-    if (turn !== false && turn !== true) {
-      document.getElementById(turn).style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
-    }
-    document.getElementById('turn-indicator').style.backgroundColor = 'rgba(153, 0, 0, 0.7)';
-    console.log(isPlayerTurn);
+    green = isPlayerTurn;
     document.getElementById(isPlayerTurn).style.backgroundColor = 'rgba(0, 179, 0, 0.7)';
-    turn = isPlayerTurn;
   }
 });
 
@@ -191,16 +200,12 @@ socket.on('gameState', (playersDatas) => {
 
   let index_player = 1;
   for (const playerDatas of playersDatas) {
-    if (initialised === false) {
-      createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid);
-    }
     resetEnemyState(index_player);
     updateEnemyState(playerDatas, index_player);
     index_player += 1;
   }
   resetSelfState();
   updateSelfState(selfDatas);
-  initialised = true;
 });
 
-socket.emit('askHand');
+socket.emit('initPlayers');
