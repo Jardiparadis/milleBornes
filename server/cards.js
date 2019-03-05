@@ -213,7 +213,6 @@ module.exports = {
 };
 
 /*
-* TODO Display bonus/malus for player
 * TODO handle disconnection
 * TODO add name to player
 * TODO win condition
@@ -221,6 +220,4 @@ module.exports = {
 * TODO remove empty room
 * TODO must wait for at least 2 players to start
 * TODO unbind all event handler when changing views
-* TODO add the trash
-* TODO not add red after healing if priority bonus
 * */
