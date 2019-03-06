@@ -9,11 +9,11 @@ function dropOnTargetEnemy(ev, targetId) {
   socket.emit('playedCard', {owner: data.split('-')[1], target: targetId, trash: false});
 }
 
-function createNewEnemyDisplay(isLeft, index, uid) {
+function createNewEnemyDisplay(isLeft, index, uid, name) {
   let content = `<div id="${uid}" class="box" ondrop="dropOnTargetEnemy(event, '${uid}')" ondragover="allowDrop(event)" style="background-color: rgba(153, 0, 0, 0.7); border-radius: 25px; color: white;">
       <div class="columns">
         <div class="column" style="width: 15em">
-          Player 1
+          ${name}
         </div>
         <div class="column" style="width: 15em">
         <span id="enemy-${index}-score">0</span> kilometers
@@ -174,7 +174,7 @@ socket.on('initPlayers', (playersDatas) => {
 
   let index_player = 1;
   for (const playerDatas of playersDatas) {
-    createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid);
+    createNewEnemyDisplay(Boolean(index_player % 2), index_player, playerDatas.uid, playerDatas.name);
     index_player += 1;
   }
   socket.emit('askHand');
