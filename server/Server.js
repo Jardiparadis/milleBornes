@@ -129,6 +129,22 @@ function getRoomInfo(roomId) {
   return (infosToSend);
 }
 
+function leaveRoom(client, socket) {
+  for (const room of rooms) {
+    if (room[1].players.indexOf(client.uid) !== -1) {
+      room[1].players.splice(room[1].players.indexOf(client.uid), 1);
+      for (const player of room[1].players) {
+        if (player === '1')
+          continue;
+        clients.get(player).socket.emit('currentRoomInfos', getRoomInfo(room[0]));
+      }
+    }
+  }
+  client.ready = false;
+  socket.broadcast.emit('listGames', listAllGames());
+  //Remove game if empty
+}
+
 io.on('connection', socket => {
   let client = {
     uid: uid(7),
@@ -137,9 +153,32 @@ io.on('connection', socket => {
     ready: false
   };
   clients.set(client.uid, client);
-  console.log('New client conencted: ' + client.uid);
+  console.log('New client connected: ' + client.uid);
   socket.on('listGames', () => {
     socket.emit('listGames', listAllGames());
+  });
+
+  socket.on('disconnect', () => {
+    let room = getRoomForPlayer(client.uid);
+
+    clients.delete(client.uid);
+    if (room !== null) {
+      leaveRoom(client, socket);
+      for (const playerUid of room.players) {
+        if (playerUid !== client.uid) {
+          clients.get(playerUid).socket.emit('aPlayerHasDisconnect');
+        }
+      }
+      if (games.has(room.id) === false) {
+        console.log('Bye <3');
+        console.log(clients.size);
+        return;
+      }
+      games.delete(room.id);
+      rooms.delete(room.id);
+    }
+    console.log('Bye <3');
+    console.log(clients.size);
   });
 
   socket.on('setName', (name) => {
@@ -164,19 +203,7 @@ io.on('connection', socket => {
   });
 
   socket.on('leaveRoom', () => {
-    for (const room of rooms) {
-      if (room[1].players.indexOf(client.uid) !== -1) {
-        room[1].players.splice(room[1].players.indexOf(client.uid), 1);
-        for (const player of room[1].players) {
-          if (player === '1')
-            continue;
-          clients.get(player).socket.emit('currentRoomInfos', getRoomInfo(room[0]));
-        }
-      }
-    }
-    client.ready = false;
-    socket.broadcast.emit('listGames', listAllGames());
-    //Remove game if empty
+    leaveRoom(client, socket);
   });
 
   socket.on('createNewRoom', () => {

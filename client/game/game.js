@@ -208,4 +208,13 @@ socket.on('gameState', (playersDatas) => {
   updateSelfState(selfDatas);
 });
 
+socket.on('aPlayerHasDisconnect', () => {
+  socket.off('gameState');
+  socket.off('isPlayerTurn');
+  socket.off('initPlayers');
+  socket.off('playedCard');
+  socket.off('hand');
+  location.href = '../roomList/roomList.html';
+});
+
 socket.emit('initPlayers');
