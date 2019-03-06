@@ -114,11 +114,15 @@ function getRoomInfo(roomId) {
 
   let infosToSend = JSON.parse(JSON.stringify(room));
   let readyList = [];
+  let nameList = [];
   clients.forEach((value) => {
-    if (room.players.indexOf(value.uid) !== -1)
+    if (room.players.indexOf(value.uid) !== -1) {
       readyList.push(value.ready);
+      nameList.push(value.name);
+    }
   });
   infosToSend.isReady = readyList;
+  infosToSend.names = nameList;
   return (infosToSend);
 }
 
