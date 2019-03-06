@@ -5,9 +5,9 @@ socket.on('listGames', (roomList) => {
   let toAdd = '';
   for (const room of roomList) {
     toAdd += `<tr>
-                <td>${room.id}</td>
-                <td>players: ${room.players.length}/4</td>
-                <td><button onclick="joinRoom('${room.id}')">join</button></td>
+                <td>${room.owner}</td>
+                <td>players: ${room.room.players.length}/4</td>
+                <td><button onclick="joinRoom('${room.room.id}')">join</button></td>
               </tr>`
   }
   document.getElementById('room-list').innerHTML = toAdd;

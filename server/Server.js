@@ -104,7 +104,10 @@ function listAllGames() {
   let response = [];
 
   rooms.forEach((value) => {
-    response.push(value);
+    //remove this line when empty games are no more displayed
+    if (value.players.length !== 0) {
+      response.push({room: value, owner: clients.get(value.players[0]).name});
+    }
   });
   return response;
 }
