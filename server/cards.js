@@ -213,9 +213,6 @@ module.exports = {
 };
 
 /*
-* TODO handle disconnection
-* TODO add name to player
-* TODO win condition
 * TODO block access to full room
 * TODO remove empty room
 * TODO must wait for at least 2 players to start

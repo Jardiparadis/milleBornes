@@ -8,18 +8,41 @@ const clients = new Map();
 const rooms = new Map();
 const games = new Map();
 
+const scoreGoal = 1000;
+
 const deckModule = require('./deck');
 const playersModule = require('./players');
 
 function checkEndGameCondition(game) {
+  let scoreBoard = [];
+  let isGameFinished = false;
 
   if (game.deck.length === 0) {
-    for (const player of game.players) {
-
-    }
+    isGameFinished = true;
   }
   for (const player of game.players) {
+    if (player.score === 1000) {
+      isGameFinished = true;
+    }
+    scoreBoard.push({
+      name: clients.get(player.uid).name,
+      score: player.score
+    })
+  }
+  if (isGameFinished === false) {
+    return;
+  }
+  //console.log('WE HAVE A WINNER');
+  //process.exit(0);
+  let closest = scoreBoard.reduce((prev, curr) => {
+    return (Math.abs(curr.score - scoreGoal) < Math.abs(prev.score - scoreGoal) ? curr : prev);
+  });
 
+  for (const player of game.players) {
+    clients.get(player.uid).socket.emit('gameFinished', {
+      winner: closest,
+      score: scoreBoard
+    })
   }
 }
 
@@ -297,6 +320,7 @@ io.on('connection', socket => {
       clients.get(player.uid).socket.emit('playedCard', {cardName: playedCard, isTrash: data.trash});
       emitPlayersGameState(clients.get(player.uid));
     }
+    checkEndGameCondition(games.get(room.id));
     changeGameTurn(games.get(room.id));
   });
 
