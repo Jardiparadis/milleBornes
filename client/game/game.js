@@ -1,4 +1,4 @@
-const socket = require('electron').remote.require('./socket');
+const {socket} = require('electron').remote.require('./socket');
 
 let playerHand = [];
 let green = false;

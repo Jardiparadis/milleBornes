@@ -1,4 +1,4 @@
-const socket = require('electron').remote.require('./socket');
+const {socket} = require('electron').remote.require('./socket');
 
 //for every changes on gameList, the server will notify all clients
 socket.on('listGames', (roomList) => {

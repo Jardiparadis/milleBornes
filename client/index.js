@@ -16,7 +16,6 @@ app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    socket.emit('disconnection');
     app.quit()
   }
 });

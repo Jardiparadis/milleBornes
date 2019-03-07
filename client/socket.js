@@ -1,5 +1,8 @@
 const io = require('socket.io-client');
 
-const socket = io('http://localhost:8089');
-
-module.exports = socket;
+module.exports = {
+  socket: undefined,
+  connect(ip, port) {
+    this.socket = io(`http://${ip}:${port}`);
+  }
+};

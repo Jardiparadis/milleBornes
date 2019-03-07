@@ -6,8 +6,9 @@
 </head>
 <body>
     <h1>Mille Bornes</h1>
+    <input type="text" id="ip" name="name" placeholder="127.0.0.1" pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$">
     <input type="text" id="name" name="name" minlength="4" maxlength="10" placeholder="Pseudo...">
-    <button onclick="goToRoomList()" type="button">Play</button>
+    <input onclick="goToRoomList()" type="submit" value="Connect to server">
     <script src="./main_menu.js"></script>
 </body>
 </html>
