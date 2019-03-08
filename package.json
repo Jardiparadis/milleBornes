@@ -5,7 +5,8 @@
   "main": "client/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "client": "electron .",
+    "server": "node server/app"
   },
   "author": "Justin Sarriot",
   "license": "ISC",
