@@ -211,8 +211,3 @@ module.exports = {
     return (true);
   },
 };
-
-/*
-* TODO block access to full room
-* TODO unbind all event handler when changing views
-* */
