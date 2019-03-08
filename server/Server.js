@@ -182,9 +182,11 @@ function leaveRoom(client, socket) {
     if (room[1].players.indexOf(client.uid) !== -1) {
       room[1].players.splice(room[1].players.indexOf(client.uid), 1);
       for (const player of room[1].players) {
-        if (player === '1')
-          continue;
         clients.get(player).socket.emit('currentRoomInfos', getRoomInfo(room[0]));
+      }
+      if (room[1].players.length === 0) {
+        rooms.delete(room[0]);
+        break;
       }
     }
   }
