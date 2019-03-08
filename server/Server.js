@@ -177,6 +177,7 @@ io.on('connection', socket => {
   };
   clients.set(client.uid, client);
   console.log('New client connected: ' + client.uid);
+
   socket.on('listGames', () => {
     socket.emit('listGames', listAllGames());
   });
