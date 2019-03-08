@@ -1,16 +1,14 @@
 const uid = require('uid');
 const app = require('http').createServer();
 const io = require('socket.io')(app);
-const serverPort = 8089;
-const cards = require('./cards');
+
+const {serverPort, scoreGoal, maxPlayers} = require('./config');
 
 const clients = new Map();
 const rooms = new Map();
 const games = new Map();
 
-const scoreGoal = 50;
-const maxPlayers = 5;
-
+const cards = require('./cards');
 const deckModule = require('./deck');
 const playersModule = require('./players');
 
@@ -35,8 +33,6 @@ function emitScore(client) {
   if (isGameFinished === false) {
     return;
   }
-  //console.log('WE HAVE A WINNER');
-  //process.exit(0);
   let closest = scoreBoard.reduce((prev, curr) => {
     return (Math.abs(curr.score - scoreGoal) < Math.abs(prev.score - scoreGoal) ? curr : prev);
   });
@@ -84,7 +80,6 @@ function getPlayersGameState(playersInGame, client) {
     players.push(player);
   }
   players.unshift(currentPlayer);
-  console.log(players);
   return (players);
 }
 
@@ -98,9 +93,6 @@ function emitPlayersGameState(client) {
 
 function applyCardEffet(client, player, cardName, target) {
   if (player.uid === client.uid) {
-    console.log('======================');
-    console.log(cardName);
-    console.log('======================');
     if (cardName === undefined) {
       return (false);
     }
@@ -146,8 +138,6 @@ function startGame(room, socket) {
     turnIndex: 0
   });
   socket.broadcast.emit('listGames', listAllGames());
-  console.log(games);
-  console.log(games.get(room.id).players);
 }
 
 function listAllGames() {
@@ -205,7 +195,6 @@ io.on('connection', socket => {
     ready: false
   };
   clients.set(client.uid, client);
-  console.log('New client connected: ' + client.uid);
 
   socket.on('listGames', () => {
     socket.emit('listGames', listAllGames());
@@ -223,15 +212,11 @@ io.on('connection', socket => {
         }
       }
       if (games.has(room.id) === false) {
-        console.log('Bye <3');
-        console.log(clients.size);
         return;
       }
       games.delete(room.id);
       rooms.delete(room.id);
     }
-    console.log('Bye <3');
-    console.log(clients.size);
   });
 
   socket.on('setName', (name) => {
@@ -296,9 +281,6 @@ io.on('connection', socket => {
   socket.on('getCurrentRoomInfos', () => {
     for (const room of rooms) {
       for (const player of room[1].players) {
-        console.log(player);
-        console.log(client.uid);
-        console.log(rooms);
         if (player === client.uid) {
           socket.emit('currentRoomInfos', getRoomInfo(room[0]));
         }
@@ -343,8 +325,6 @@ io.on('connection', socket => {
             // Something went wrong during card effect process
             return;
           }
-        } else {
-          console.log('TRASH');
         }
         player.hand[data.owner] = deckModule.pick(games.get(room.id).deck);
         client.socket.emit('hand', player.hand);
@@ -359,7 +339,6 @@ io.on('connection', socket => {
   });
 
   socket.on('getScore', () => {
-    console.log("blabla");
     emitScore(client);
   });
 

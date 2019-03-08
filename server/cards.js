@@ -1,12 +1,3 @@
-function hasOneOfTheseBonus(playerToCheck, bonusToCheck) {
-  for (const bonus of bonusToCheck) {
-    if (playerToCheck.bonus[bonus] === true) {
-      return (true);
-    }
-  }
-  return (false);
-}
-
 function hasOneOfTheseHandicap(playerToCheck, handicapToCheck) {
   for (const handicap of handicapToCheck) {
     if (playerToCheck.handicap[handicap] === true) {

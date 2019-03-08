@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-const socket = require('./socket');
 
 let win = null;
 

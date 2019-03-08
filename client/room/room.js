@@ -21,7 +21,6 @@ socket.on('startGame', () => {
 socket.on('currentRoomInfos', (room) => {
   let toAdd = '';
 
-  console.log(room);
   let index = 0;
   for (const player of room.players) {
     toAdd += `<tr>
