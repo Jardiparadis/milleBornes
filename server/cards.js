@@ -214,6 +214,5 @@ module.exports = {
 
 /*
 * TODO block access to full room
-* TODO remove empty room
 * TODO unbind all event handler when changing views
 * */
