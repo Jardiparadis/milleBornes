@@ -34,7 +34,7 @@ function emitScore(client) {
     return;
   }
   let closest = scoreBoard.reduce((prev, curr) => {
-    return (Math.abs(curr.score - scoreGoal) < Math.abs(prev.score - scoreGoal) ? curr : prev);
+    return (Math.abs(curr.score - scoreGoal) > Math.abs(prev.score - scoreGoal) ? curr : prev);
   });
 
   client.socket.emit('score', {
