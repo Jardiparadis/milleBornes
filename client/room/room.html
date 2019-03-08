@@ -1,18 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: url(../public/grass.png) no-repeat center fixed; background-size: cover;">
 <head>
   <meta charset="UTF-8">
   <title>Room</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"/>
 </head>
 <body>
-<p>Game room</p>
-<button onclick="changeState()">Ready</button>
-<button onclick="leaveRoom()">Leave</button>
-<table>
-  <thead>Players:</thead>
-  <tbody id="player-list">
-  </tbody>
-</table>
+<div class="columns" style="height: 6em"></div>
+<div class="columns is-centered">
+  <div class="column has-text-centered" style="color: white; font-size: 2em; font-weight: bold">
+    Players in room
+  </div>
+</div>
+<div class="columns">
+  <div class="column"></div>
+  <div class="column has-text-centered is-narrow">
+    <button class="button is-success" onclick="changeState()">Ready</button>
+  </div>
+  <div class="column has-text-centered is-narrow">
+    <button class="button is-success" onclick="leaveRoom()">Leave</button>
+  </div>
+  <div class="column"></div>
+</div>
+<div class="columns is-centered">
+  <div class="column has-text-centered is-3">
+    <table class="table is-fullwidth" style="background-color: rgba(0, 102, 0, 0.7); color: white;">
+      <thead>
+      <tr>
+        <td style="color: white; font-weight: bold">Players:</td>
+        <td style="color: white; font-weight: bold">Status:</td>
+      </tr>
+      <tbody id="player-list"></tbody>
+    </table>
+  </div>
+</div>
 <script src="room.js"></script>
 </body>
 </html>

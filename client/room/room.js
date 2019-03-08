@@ -26,7 +26,7 @@ socket.on('currentRoomInfos', (room) => {
   for (const player of room.players) {
     toAdd += `<tr>
                 <td>${room.names[index]}</td>
-                <td>${room.isReady[index]}</td>
+                <td>${room.isReady[index] === true ? 'Ready' : 'Unready'}</td>
               </tr>`;
     index += 1;
   }
