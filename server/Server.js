@@ -275,7 +275,7 @@ io.on('connection', socket => {
             allReady = false;
         }
         // Start the game ?
-        if (allReady === false)
+        if (allReady === false || room[1].players.length < 2)
           return;
         for (const uid of room[1].players) {
           clients.get(uid).socket.emit('startGame');
