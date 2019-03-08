@@ -8,12 +8,14 @@ const clients = new Map();
 const rooms = new Map();
 const games = new Map();
 
-const scoreGoal = 1000;
+const scoreGoal = 50;
 
 const deckModule = require('./deck');
 const playersModule = require('./players');
 
-function checkEndGameCondition(game) {
+function emitScore(client) {
+  let room = getRoomForPlayer(client.uid);
+  let game = games.get(room.id);
   let scoreBoard = [];
   let isGameFinished = false;
 
@@ -21,7 +23,7 @@ function checkEndGameCondition(game) {
     isGameFinished = true;
   }
   for (const player of game.players) {
-    if (player.score === 1000) {
+    if (player.score === scoreGoal) {
       isGameFinished = true;
     }
     scoreBoard.push({
@@ -38,11 +40,34 @@ function checkEndGameCondition(game) {
     return (Math.abs(curr.score - scoreGoal) < Math.abs(prev.score - scoreGoal) ? curr : prev);
   });
 
+  client.socket.emit('score', {
+    winner: closest,
+    score: scoreBoard
+  })
+}
+
+function checkEndGameCondition(game) {
+  let scoreBoard = [];
+  let isGameFinished = false;
+
+  if (game.deck.length === 0) {
+    isGameFinished = true;
+  }
   for (const player of game.players) {
-    clients.get(player.uid).socket.emit('gameFinished', {
-      winner: closest,
-      score: scoreBoard
+    if (player.score === scoreGoal) {
+      isGameFinished = true;
+    }
+    scoreBoard.push({
+      name: clients.get(player.uid).name,
+      score: player.score
     })
+  }
+  if (isGameFinished === false) {
+    return;
+  }
+
+  for (const player of game.players) {
+    clients.get(player.uid).socket.emit('gameFinished');
   }
 }
 
@@ -323,6 +348,11 @@ io.on('connection', socket => {
     }
     checkEndGameCondition(games.get(room.id));
     changeGameTurn(games.get(room.id));
+  });
+
+  socket.on('getScore', () => {
+    console.log("blabla");
+    emitScore(client);
   });
 
   socket.on('initPlayers', () => {

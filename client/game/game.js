@@ -217,4 +217,8 @@ socket.on('aPlayerHasDisconnect', () => {
   location.href = '../roomList/roomList.html';
 });
 
+socket.on('gameFinished', () => {
+  location.href = '../score_board/score_board.html';
+});
+
 socket.emit('initPlayers');

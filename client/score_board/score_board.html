@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" style="background: url(../public/grass.png) no-repeat center fixed; background-size: cover;">
+<head>
+  <meta charset="UTF-8">
+  <title>Score Board</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"/>
+</head>
+<body>
+<div class="columns" style="height: 6em"></div>
+<div class="columns is-centered">
+  <div class="column has-text-centered" style="color: white; font-size: 2em; font-weight: bold">
+    The winner is <span id="winner-name"></span>
+  </div>
+</div>
+<div class="columns">
+  <div class="column is-5"></div>
+  <div class="column">
+    <table class="table is-fullwidth" style="background-color: rgba(0, 102, 0, 0.7); color: white; font-weight: bold">
+      <tbody id="score-board"></tbody>
+    </table>
+  </div>
+  <div class="column is-5"></div>
+</div>
+<script src="score_board.js"></script>
+</body>
+</html>

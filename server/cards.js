@@ -215,6 +215,7 @@ module.exports = {
 /*
 * TODO block access to full room
 * TODO remove empty room
+* TODO block using effect cards (currently, pass the turn)
 * TODO must wait for at least 2 players to start
 * TODO unbind all event handler when changing views
 * */
