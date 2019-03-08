@@ -1,7 +1,15 @@
 const socket = require('electron').remote.require('./socket');
 
 function goToRoomList() {
-    location.href='../roomList/roomList.html';
-    socket.connect('localhost', 8089);
-    socket.socket.emit('setName', document.getElementById('name').value);
+    let name = document.getElementById('name').value;
+    let ip = document.getElementById('ip').value;
+    let port = document.getElementById('port').value;
+
+    if (name.length > 0 && ip.length > 0 && port.length > 0) {
+        socket.connect(ip, port);
+        socket.socket.on('connect', () => {
+            socket.socket.emit('setName', document.getElementById('name').value);
+            location.href='../roomList/roomList.html';
+        })
+    }
 }
