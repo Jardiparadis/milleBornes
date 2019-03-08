@@ -166,6 +166,7 @@ socket.on('hand', (hand) => {
 socket.on('playedCard', ({cardName, isTrash}) => {
   if (isTrash === false) {
     document.getElementById('card-played').src = `../public/${cardName}.png`;
+    document.getElementById('card-played').style.visibility = 'visible';
   }
 });
 
