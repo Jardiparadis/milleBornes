@@ -1,16 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: url(../public/grass.png) no-repeat center fixed; background-size: cover;">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Room List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"/>
 </head>
 <body>
-<p>Available room</p>
-<table>
-  <tbody id="room-list">
-  </tbody>
-</table>
-<button onclick="hostRoom()">Create a new room</button>
+<div class="columns" style="height: 6em"></div>
+<div class="columns is-centered">
+  <div class="column has-text-centered" style="color: white; font-size: 2em; font-weight: bold">
+    Available rooms:
+  </div>
+</div>
+<div class="columns" style="height: 1em"></div>
+<div class="columns">
+  <div class="column is-4"></div>
+  <div class="column">
+    <table class="table is-fullwidth" style="background-color: rgba(0, 102, 0, 0.7); color: white; font-weight: bold">
+      <tbody id="room-list"></tbody>
+    </table>
+  </div>
+  <div class="column is-4"></div>
+</div>
+<div class="columns" style="height: 1em"></div>
+<div class="columns is-centered">
+  <div class="column has-text-centered">
+    <button class="button" onclick="hostRoom()">Create a new room</button>
+  </div>
+</div>
 <script src="roomList.js"></script>
 </body>
 </html>

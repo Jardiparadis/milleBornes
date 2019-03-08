@@ -5,10 +5,13 @@ socket.on('listGames', (roomList) => {
   let toAdd = '';
   for (const room of roomList) {
     toAdd += `<tr>
-                <td>${room.owner}</td>
-                <td>players: ${room.room.players.length}/4</td>
-                <td><button onclick="joinRoom('${room.room.id}')">join</button></td>
+                <td>${room.owner}'s room</td>
+                <td>players: ${room.room.players.length}/5</td>
+                <td><button class="button is-success" onclick="joinRoom('${room.room.id}')">join</button></td>
               </tr>`
+  }
+  if (toAdd.length === 0) {
+    toAdd = `No room available`;
   }
   document.getElementById('room-list').innerHTML = toAdd;
 });
