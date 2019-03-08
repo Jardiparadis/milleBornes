@@ -9,6 +9,7 @@ const rooms = new Map();
 const games = new Map();
 
 const scoreGoal = 50;
+const maxPlayers = 5;
 
 const deckModule = require('./deck');
 const playersModule = require('./players');
@@ -135,7 +136,7 @@ function isPlayerTurn(client) {
   return (game.players[game.turnIndex].uid);
 }
 
-function startGame(room) {
+function startGame(room, socket) {
   let deck = deckModule.initDeck();
   let players = playersModule.initPlayers(room, deck, clients);
 
@@ -144,6 +145,7 @@ function startGame(room) {
     players: players,
     turnIndex: 0
   });
+  socket.broadcast.emit('listGames', listAllGames());
   console.log(games);
   console.log(games.get(room.id).players);
 }
@@ -153,7 +155,7 @@ function listAllGames() {
 
   rooms.forEach((value) => {
     //remove this line when empty games are no more displayed
-    if (value.players.length !== 0) {
+    if (games.has(value.id) === false) {
       response.push({room: value, owner: clients.get(value.players[0]).name});
     }
   });
@@ -238,9 +240,13 @@ io.on('connection', socket => {
 
   socket.on('joinRoom', (id) => {
     let room = rooms.get(id);
+    if (room.players.length >= maxPlayers) {
+      return;
+    }
     room.players.push(client.uid);
     client.ready = false;
     socket.broadcast.emit('listGames', listAllGames());
+    client.socket.emit('joinRoomAccepted');
 
     for (const room of rooms) {
       if (room[1].players.indexOf(client.uid) !== -1) {
@@ -282,7 +288,7 @@ io.on('connection', socket => {
         for (const uid of room[1].players) {
           clients.get(uid).socket.emit('startGame');
         }
-        startGame(room[1]);
+        startGame(room[1], socket);
       }
     }
   });

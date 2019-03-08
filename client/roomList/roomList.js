@@ -16,10 +16,13 @@ socket.on('listGames', (roomList) => {
   document.getElementById('room-list').innerHTML = toAdd;
 });
 
-function joinRoom(id) {
-  location.href='../room/room.html';
-  socket.emit('joinRoom', id);
+socket.on('joinRoomAccepted', () => {
   socket.off('listGames');
+  location.href='../room/room.html';
+});
+
+function joinRoom(id) {
+  socket.emit('joinRoom', id);
 }
 
 function hostRoom() {
