@@ -33,8 +33,16 @@ function emitScore(client) {
   if (isGameFinished === false) {
     return;
   }
-  let closest = scoreBoard.reduce((prev, curr) => {
-    return (Math.abs(curr.score - scoreGoal) > Math.abs(prev.score - scoreGoal) ? curr : prev);
+
+  let closest = {
+    name: 'nobody',
+    score: 0
+  };
+
+  scoreBoard.forEach((elem) => {
+    if (elem.score > closest.score &&
+        elem.score <= scoreGoal)
+      closest = elem;
   });
 
   client.socket.emit('score', {
