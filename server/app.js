@@ -314,6 +314,7 @@ io.on('connection', socket => {
 
     if (room === null || playersInGame === null || isPlayerTurn(client) !== true)
       return;
+    let hasPlayed = false;
     for (const player of games.get(room.id).players) {
       if (player.uid === client.uid) {
         playedCard = player.hand[data.owner];
@@ -326,10 +327,14 @@ io.on('connection', socket => {
           }
         }
         if (data.trash === false) {
+          hasPlayed = true;
           if (applyCardEffet(client, player, playedCard, target) === false) {
             // Something went wrong during card effect process
             return;
           }
+        }
+        if (hasPlayed === false) {
+          return;
         }
         player.hand[data.owner] = deckModule.pick(games.get(room.id).deck);
         client.socket.emit('hand', player.hand);
