@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.2.0",
-    "electron": "^4.0.2",
+    "electron": "^11.5.0",
     "ip": "^1.1.5",
     "shuffle-array": "^1.0.1",
     "socket.io": "^2.2.0",
